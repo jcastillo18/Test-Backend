@@ -20,8 +20,14 @@ const {
 } = process.env;
 
 var _default = _mongoose.default.createConnection("mongodb+srv://".concat(DB_USER, ":").concat(DB_PASSWORD).concat(DB_URI), {
+  reconnectTries: 100,
+  reconnectInterval: 500,
+  autoReconnect: true,
+  useNewUrlParser: true,
+  // dbName: 'Casa-pellas-Dev',
+  dbName: 'test',
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useFindAndModify: false
 });
 
 exports.default = _default;

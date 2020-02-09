@@ -11,10 +11,9 @@ var _db_connection = _interopRequireDefault(require("../db_connection"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_db_connection.default;
 const cancellationtrackers = new _mongoose.default.Schema({
   _id: {
-    type: String
+    type: _mongoose.default.Schema.Types.ObjectId
   },
   owner: {
     type: _mongoose.default.Schema.Types.ObjectId
@@ -37,16 +36,19 @@ const cancellationtrackers = new _mongoose.default.Schema({
   bussinessName: {
     type: String
   },
-  clientName: {
+  typeOfIndustry: {
     type: String
   },
   bussinessWebsite: {
     type: String
   },
-  clientPhone: {
+  customerName: {
     type: String
   },
   clientEmail: {
+    type: String
+  },
+  clientPhone: {
     type: String
   },
   typeOfService: {
@@ -83,6 +85,6 @@ const cancellationtrackers = new _mongoose.default.Schema({
   timestamps: true
 });
 var _default = {
-  model: _db_connection.default.model('cancellationtrackers', cancellationtrackers)
+  model: _mongoose.default.model('cancellationtrackers', cancellationtrackers)
 };
 exports.default = _default;

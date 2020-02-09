@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/babel src --watch --out-dir dist",
+    "build": "./node_modules/.bin/babel src --watch --out-dir dist | nodemon dist/index.js",
     "start": "nodemon dist/index.js",
     "watch": "babel-watch dist"
   },
@@ -14,7 +14,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.8.11",
+    "mongoose": "^5.7.3",
     "nodemon": "^2.0.2"
   },
   "devDependencies": {

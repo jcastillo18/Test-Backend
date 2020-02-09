@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import database from '../db_connection';
 
-database
+
 
 const cancellationtrackers = new mongoose.Schema({
     _id:{
-        type:String
+        type:mongoose.Schema.Types.ObjectId
     },
     owner:{
         type:mongoose.Schema.Types.ObjectId
@@ -28,16 +28,19 @@ const cancellationtrackers = new mongoose.Schema({
     bussinessName:{
         type:String
     },
-    clientName:{
+    typeOfIndustry:{
         type:String
     },
     bussinessWebsite:{
         type:String
     },
-    clientPhone:{
+    customerName:{
         type:String
     },
     clientEmail:{
+        type:String
+    },
+    clientPhone:{
         type:String
     },
     typeOfService:{
@@ -77,5 +80,5 @@ const cancellationtrackers = new mongoose.Schema({
 })
 
 export default{
-    model:database.model('cancellationtrackers',cancellationtrackers)
+    model:mongoose.model('cancellationtrackers',cancellationtrackers)
 }

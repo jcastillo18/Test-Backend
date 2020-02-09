@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _User = _interopRequireDefault(require("./User"));
+var _cancellationKpi = _interopRequireDefault(require("./cancellationKpi"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = {
-  User: _User.default
+  cancellationKpi: _cancellationKpi.default
 };
 exports.default = _default;
