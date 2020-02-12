@@ -5,7 +5,7 @@ import database from '../db_connection';
 
 const cancellationtrackers = new mongoose.Schema({
     _id:{
-        type:mongoose.Schema.Types.ObjectId
+        type:mongoose.ObjectId
     },
     owner:{
         type:mongoose.Schema.Types.ObjectId
@@ -76,7 +76,8 @@ const cancellationtrackers = new mongoose.Schema({
     }
 
 },{
-    timestamps:true
+    timestamps:true,
+    _id:false
 })
 
 export default{

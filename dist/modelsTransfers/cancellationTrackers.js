@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const cancellationtrackers = new _mongoose.default.Schema({
   _id: {
-    type: _mongoose.default.Schema.Types.ObjectId
+    type: _mongoose.default.ObjectId
   },
   owner: {
     type: _mongoose.default.Schema.Types.ObjectId
@@ -82,7 +82,8 @@ const cancellationtrackers = new _mongoose.default.Schema({
     type: String
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  _id: false
 });
 var _default = {
   model: _mongoose.default.model('cancellationtrackers', cancellationtrackers)

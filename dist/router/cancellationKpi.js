@@ -5,64 +5,69 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _cancellationKpi = _interopRequireDefault(require("../models/cancellationKpi"));
-
-var _users = _interopRequireDefault(require("../modelsTransfers/users"));
-
 var _express = _interopRequireDefault(require("express"));
 
-var _mongoose = _interopRequireDefault(require("mongoose"));
-
-var _projects = _interopRequireDefault(require("../modelsTransfers/projects"));
+var _mongoose = _interopRequireWildcard(require("mongoose"));
 
 var _cancellationTrackers = _interopRequireDefault(require("../modelsTransfers/cancellationTrackers"));
 
+var _projects = _interopRequireDefault(require("../modelsTransfers/projects"));
+
+var _dotenv = require("dotenv");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const MongoClient = require('mongodb').MongoClient;
+
+(0, _dotenv.config)();
+const {
+  DB_USER,
+  DB_PASSWORD,
+  DB_URI,
+  DB_NAME
+} = process.env;
 
 const api = _express.default.Router();
 
 var _default = api.post('/getdata', async (req, res) => {
   try {
-    await _mongoose.default.connect(req.body.connectionString, {
+    let url = await _mongoose.default.connect(req.body.connectionString, {
       reconnectTries: 100,
       reconnectInterval: 500,
       autoReconnect: true,
       useNewUrlParser: true,
       // dbName: 'Casa-pellas-Dev',
-      dbName: 'TestCasaPellas',
+      //dbName:'TestCasaPellas',
       useUnifiedTopology: true,
       useFindAndModify: false
     });
-    let data2 = await _cancellationTrackers.default.model.find().exec();
-    data2.forEach(element => {
-      let ct = new _cancellationKpi.default.model();
-      ct._id = element._id;
-      ct.owner = element.owner;
-      ct.departmentDirector = element.departmentDirector;
-      ct.accountManager = element.accountManager;
-      ct.fronter = element.fronter;
-      ct.closer = element.closer;
-      ct.orderNumber = element.orderNumber;
-      ct.businessName = element.businessName;
-      ct.typeOfIndustry = element.typeOfIndustry;
-      ct.businessWebsite = element.businessWebsite;
-      ct.customerName = element.customerName;
-      ct.clientEmail = element.clientEmail;
-      ct.clientPhone = element.clientPhone;
-      ct.typeOfService = element.typeOfService;
-      ct.managementFee = element.managementFee;
-      ct.clientBudget = element.clientBudget;
-      ct.country = element.country;
-      ct.state = element.state;
-      ct.city = element.city;
-      ct.dailyBudget = element.dailyBudget;
-      ct.monthlyBudget = element.monthlyBudget;
-      ct.cancellationReason = element.cancellationReason;
-      ct.cancelationComment = element.cancelationComment;
+    let data2 = await _projects.default.model.find().exec();
+    console.log(data2); // Connection URL
 
-      const saveData = _cancellationKpi.default.model.create(ct);
+    const url2 = "mongodb+srv://".concat(DB_USER, ":").concat(DB_PASSWORD).concat(DB_URI); // Database Name
 
-      console.log('Insertando Datos');
+    const dbName = DB_NAME; // Use connect method to connect to the server
+
+    MongoClient.connect(url2, function (err, client) {
+      //assert.equal(null, err);
+      console.log("Connected successfully to server");
+      const db = client.db(dbName);
+      const collection = db.collection('projects');
+      let saveCollection = collection.insertMany(data2);
+      saveCollection.then(res => {
+        console.log(res);
+      }).catch(error => {
+        console.log(error);
+      }); // db.collection('cancellationtrackers').find({}).toArray((err,data)=>{
+      //     if(err) return console.log(err);
+      //     res.json(data)
+      // })
+
+      client.close();
     });
   } catch (error) {
     console.log(error);
